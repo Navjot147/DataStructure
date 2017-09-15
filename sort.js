@@ -14,9 +14,9 @@ Sort.prototype.insertionSort = function () {
             input[hole] = element;
         });
 
-        console.log(`Array after Sort is: ${input}`);
+        return input;
     } else {
-        console.log(`Invalid input format.`);
+        return `Invalid input format.`;
     }
 
 }
@@ -66,9 +66,4 @@ Sort.prototype.reverse = function (arr) {
         index++;
     }
     return reverseArr;
-}
-
-Sort.prototype.plusOne = function (arr) {
-    let reverseArr = this.reverse(arr);
-    
 }
