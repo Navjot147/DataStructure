@@ -4,8 +4,6 @@ function MergeSort(arr) {
 
 Sort.prototype.merge = function (leftSubarray, rightSubArrray, array) {
 
-
-
     const divideArray = (array) => {
         let i = 0;
         while (i < array.length) {
@@ -22,9 +20,6 @@ Sort.prototype.merge = function (leftSubarray, rightSubArrray, array) {
             this.merge(leftSubarray, rightSubArrray, array);
             i++;
         }
-
-
-
     }
     let i = 0;
     while(i < leftSubarray.length){
