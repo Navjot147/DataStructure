@@ -73,6 +73,19 @@ class LinkedList {
         return head ? { index, head } : null;
     }
 
+    findMiddle() {
+        let middleIndex = parseInt(this.length / 2) + 1;
+        let middle = this.head;
+        for (let i = 0; i < middleIndex; i++) {
+            if (middleIndex == 1) {
+                return;
+            }
+            middle = middle._nextAdd;
+        }
+
+        return middle;
+    }
+
     removeFromHead() {
         this.head = this.head._nextAdd;
         this.length--;
@@ -105,8 +118,7 @@ linkedList.addAtEnd(6);
 linkedList.addAtEnd(7);
 linkedList.addToHead(8);
 linkedList.addAtIndex(2, 21);
-linkedList.remove(8);
-
-let value = linkedList.findAndGet(7);
-console.log(value)
+// linkedList.remove(8);
+console.log(JSON.stringify(linkedList.head));
+console.log(linkedList.findMiddle());
 
