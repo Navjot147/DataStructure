@@ -9,7 +9,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}/linkedlist/linkedlist.js"
+            "program": "${workspaceFolder}/stackproblems.js"
         }
     ]
 }

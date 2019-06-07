@@ -1,52 +1,85 @@
-function minOfNPosition(arr, m) {
-  let values = { minIndex: -1, min: arr[0] };
-  for (let i = 0; i <= m; i++) {
-    values = findMin(values.minIndex, arr[0], arr);
-  }
-  return values;
-}
-
-function findMin(minIndex, min, arr) {
-  let _min = min;
-  let _minIndex = minIndex;
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i] < _min) {
-      _min = arr[i];
-      _minIndex = i;
+var inputObj = {
+  name: "jane",
+  last_name: "doe",
+  profession: "engineer",
+  characteristics: {
+    intelligent: true,
+    punctual: false,
+    experience: {
+      "2012": "college passout",
+      "2014": "mba passout",
+      "2016": "employed",
+      "4040": {
+        name: "navjot",
+        age: 20
+      }
     }
   }
-  arr.splice(_minIndex, 1);
-  return { min: _min, minIndex: _minIndex, arr };
-}
+};
 
-// How many valleys crosses by taking steps
-// Sample: valleyString = 'DDUUDUDU'
-// D -> Step Down, U -> Step Up
-function countingValleys(valleyString) {
-  let arr = valleyString.split("");
-  let level = 0;
-  let valleyCount = 0;
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i] === "D") --level;
-    if (arr[i] === "U") ++level;
-    if (level === 0 && arr[i] === "U") ++valleyCount;
-  }
-  return valleyCount;
-}
-
-// count the a's in infinite repeated string when given value of certain number
-// Sample: str = 'aba', number = 10
-function repeatedString(str, number) {
-  let orgArr = str.split("");
-  let arr = str.split("");
-  arr.length = number;
-  let numberOfA = 0;
-  for (let i = 0; i < number; i++) {
-    if (!arr[i]) {
-      let pickUpIndex = i % orgArr.length;
-      arr[i] = orgArr[pickUpIndex];
+var flattenObject = {};
+function flatten(obj, prevKey) {
+  Object.keys(obj).forEach(key => {
+    if (obj[key] instanceof Object) {
+      flatten(obj[key], prevKey ? prevKey + key + "." : key + ".");
+    } else {
+      flattenObject[prevKey + key] = obj[key];
     }
-    if (arr[i] === "a") ++numberOfA;
+  });
+}
+// flatten(inputObj, "");
+// console.log(flattenObject);
+
+// {
+//   'name': 'jane',
+//   'last_name': 'doe',
+//   'profession': 'engineer',
+//   'characteristics.intelligent': true,
+//   'characteristics.punctual': false,
+//   'characteristics.experience.2012': 'college passout',
+//   'characteristics.experience.2014': 'mba passout',
+//   'characteristics.experience.2016': 'employed'
+// }
+
+function sum(a, b) {
+  console.log("Sum is: ", a + b);
+}
+
+Function.prototype.callAfter = function() {
+  if (arguments.length > 1) {
+    var args = Array.prototype.slice.call(arguments);
+    var time = args.splice(0, 1);
+    setTimeout(() => {
+      this.apply(null, args);
+    }, time);
   }
-  return numberOfA;
+};
+sum.callAfter(1000, 8, 7);
+
+function countSibling(node, i) {
+  if(node.nextElementSibling) {
+    i = i +1;
+    return countSibling(node.nextElementSibling, i);
+  }
+  return i;
+}
+function generateSelector(DOMNode) {
+  var node = DOMNode;
+  if(node.id) {
+    return "#" + node.id;
+  } else if(node.className) {
+    var unique = '';
+    node.className.split(' ').forEach(cls =>{
+      if(document.getElementsByClassName(cls).length === 1) {
+        unique = '.' + cls;
+        break;
+      }
+    });
+    if(!unique) {
+      var sibling = countSibling(node);
+      var nthPosition = node.parentElement.childElementCount - sibling;
+      unique = node.tagName + ':nth-of-type(' + nthPosition + ')';
+    }
+    return unique;
+  }
 }
