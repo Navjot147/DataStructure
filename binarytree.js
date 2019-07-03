@@ -59,9 +59,26 @@ class BinaryTree {
     this.postorder(root.right);
     console.log(root.value);
   }
+  mirrorImageIterative(root) {
+    if(!root) return;
+    const queue = [];
+    queue.push(root);
+    while (queue.length) {
+      const current = queue[0];
+      queue.shift();
+      const temp = root.left;
+      root.left = root.right;
+      root.right = temp;
+      if (current.left) {
+        queue.push(current.left);
+      }
+      if (current.right) {
+        queue.push(current.right);
+      }
+      console.log(current.value);
+    }
+  }
 }
- 
-
 
 const objBinaryTree = new BinaryTree(5);
 objBinaryTree.insert(3);
@@ -71,4 +88,5 @@ objBinaryTree.insert(4);
 objBinaryTree.insert(9);
 objBinaryTree.insert(14);
 // objBinaryTree.preorder();
-objBinaryTree.postorder(objBinaryTree.root);
+// objBinaryTree.postorder(objBinaryTree.root);
+objBinaryTree.mirrorImageIterative(objBinaryTree.root);
