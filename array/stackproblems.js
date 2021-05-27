@@ -44,4 +44,4 @@ function checkRedundancy(str) {
   }
 }
 
-console.log(balancedParanthese("[(])"));
+console.log(balancedParanthese("[{{"));
