@@ -14,7 +14,8 @@ function Player(name) {
   let score = 0;
   let rank = null;
   this.name = name;
-  this.lastTwoValues = []
+  this.lastTwoValues = [];
+  this.history = [];
 
   const addLatestTwoValues = val => {
     if (this.lastTwoValues.length > 1) {
@@ -23,6 +24,10 @@ function Player(name) {
     } else {
       this.lastTwoValues.push(val);
     }
+  }
+
+  const addToHistory = val => {
+    this.history.push(val);
   }
 
   this.getScore = function () {
@@ -46,6 +51,7 @@ function Player(name) {
     const val = dice.roll();
     console.log(`You got Dice value: ${val}`);
     addLatestTwoValues(val);
+    addToHistory(val);
     score = score + val;
     return val;
   }

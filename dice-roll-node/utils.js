@@ -36,7 +36,7 @@ const showRanks = (players = []) => {
   rankedPlayers.sort(function (a, b) {
     return a.getRank() - b.getRank();
   });
-  console.table(rankedPlayers.concat(nonRankedPlayers).map(player => { return { Name: player.name, Rank: player.getRank(), Score: player.getScore() } }));
+  console.table(rankedPlayers.concat(nonRankedPlayers).map(player => { return { Name: player.name, Rank: player.getRank(), Score: player.getScore(), History: player.history.join(',') } }));
 }
 
 
@@ -76,6 +76,16 @@ function getNextPlayer(players = [], i, roundCount) {
   return { i, roundCount };
 }
 
+const checkSumOfNIndcies = (n, sum, arr) => {
+  let i = arr.length - 1;
+  while (n) {
+    sum = sum - arr[i];
+    i--;
+    n--;
+  }
+  return !sum;
+}
+
 
 module.exports = {
   getRandNum,
@@ -83,5 +93,6 @@ module.exports = {
   hasGameEnded,
   showRanks,
   createPlayers,
-  getNextPlayer
+  getNextPlayer,
+  checkSumOfNIndcies
 }
