@@ -104,7 +104,7 @@ const getInterpolatedString = (str, obj) => {
       i = i + 1;
     } else if (char == '}' && str[i + 1] == '}') {
       matched = false;
-      finalString =  obj[tempStr] ? finalString + obj[tempStr] : finalString;
+      finalString = obj[tempStr] ? finalString + obj[tempStr] : finalString;
       tempStr = '';
       i = i + 1;
     } else if (matched) {
@@ -598,9 +598,279 @@ function theLoveLetterMystery(s) {
         // s[i] = String.fromCharCode(n1 - diff);
       }
     }
-    i++;j--;
+    i++; j--;
   }
   return count;
 }
 
 // console.log(theLoveLetterMystery('abcba'));
+
+/**
+ * @param {string} num
+ * @param {number} k
+ * @return {string}
+ */
+var removeKdigits = function (num, k) {
+  let finalStr = '';
+  for (let i = 0; i < num.length; i++) {
+    const char = num[i];
+    const prevChar = finalStr[finalStr.length - 1];
+    console.log(prevChar, parseInt(prevChar), parseInt(char))
+    if (k && prevChar && parseInt(prevChar) > parseInt(char)) {
+      finalStr = finalStr.replace(/.$/, char);
+      k--;
+    } else {
+      finalStr = finalStr + char;
+    }
+  }
+  return finalStr;
+};
+
+// console.log(removeKdigits('1432219', '3'));
+
+/**
+ * @param {character[][]} board
+ * @return {boolean}
+ */
+var isValidSudoku = function (board) {
+
+  for (let i = 0; i < 9; i++) {
+    let map = {};
+    for (let j = 0; j < 9; j++) {
+      const val = board[i][j];
+      if (val !== '.' && map[val]) return false;
+      else if (val !== '.') { map[val] = 1; }
+    }
+  }
+
+
+  for (let j = 0; j < 9; j++) {
+    let map = {};
+    for (let i = 0; i < 9; i++) {
+      const val = board[i][j];
+      if (val !== '.' && map[val]) return false;
+      else if (val !== '.') { map[val] = 1; }
+    }
+  }
+
+  let map = {};
+  let isValid = true;
+  const checkAndUpdate = (i, j, num) => {
+    const val = board[i][j];
+    // if(val !== '.') console.log(val, num);
+    if (val !== '.' && map[`${val}${num}`]) isValid = false;
+    else if (val !== '.') { map[`${val}${num}`] = 1; }
+  }
+
+
+  for (let i = 0; i < 9; i++) {
+    for (let j = 0; j < 9; j++) {
+      if (i >= 0 && i <= 2) {
+        if (j >= 0 && j <= 2) checkAndUpdate(i, j, 1);
+        if (j >= 3 && j <= 5) checkAndUpdate(i, j, 2);
+        if (j >= 6 && j <= 8) checkAndUpdate(i, j, 3);
+      }
+
+      if (i >= 3 && i <= 5) {
+        if (j >= 0 && j <= 2) checkAndUpdate(i, j, 4);
+        if (j >= 3 && j <= 5) checkAndUpdate(i, j, 5);
+        if (j >= 6 && j <= 8) checkAndUpdate(i, j, 6);
+      }
+
+      if (i >= 6 && i <= 8) {
+        if (j >= 0 && j <= 2) checkAndUpdate(i, j, 7);
+        if (j >= 3 && j <= 5) checkAndUpdate(i, j, 8);
+        if (j >= 6 && j <= 8) checkAndUpdate(i, j, 9);
+      }
+
+    }
+  }
+  return isValid;
+};
+
+// const arr = [
+
+//   [".", ".", ".", ".", "5", ".", ".", "1", "."],
+//   [".", "4", ".", "3", ".", ".", ".", ".", "."],
+//   [".", ".", ".", ".", ".", "3", ".", ".", "1"],
+
+//   ["8", ".", ".", ".", ".", ".", ".", "2", "."],
+//   [".", ".", "2", ".", "7", ".", ".", ".", "."],
+//   [".", "1", "5", ".", ".", ".", ".", ".", "."],
+
+//   [".", ".", ".", ".", ".", "2", ".", ".", "."],
+//   [".", "2", ".", "9", ".", ".", ".", ".", "."],
+//   [".", ".", "4", ".", ".", ".", ".", ".", "."]];
+
+// console.log(isValidSudoku(arr));
+
+
+// const obj = {
+//   name: 'navjot',
+//   getname: function(){
+//     console.log(this.name);
+//   }
+// }
+
+// obj.getname();
+// const abc = obj.getname;
+// abc();
+
+
+/**
+ * 
+ * TaskRunner 
+ * 
+ * To perform tasks sequentially
+ * 
+ * 1. Concurrency
+ * 2. Timeouts
+ * 3. Retries
+ * 
+ */
+
+//  function TaskRunner() {
+//   const queue = [];
+//   let currentTask = null;
+// // let i = 0;
+//   const executeNext = () => {
+//       if (!currentTask && queue.length) {
+//           currentTask = queue[0];
+//           queue.splice(0, 1);
+//           currentTask.fn();
+//       }
+//   }
+
+//   const complete = data => {
+//       currentTask.cb({ data, error: null });
+//       currentTask = null;
+//       executeNext();
+//   }
+
+//   const failed = error => {
+//       currentTask.cb({ data: null, error });
+//       currentTask = null;
+//       executeNext();
+//   }
+
+//   this.enqueue = function (task, cb) {
+//       const obj = {
+//           fn: task.bind(null, complete, failed),
+//           cb
+//       }
+//       queue.push(obj);
+//       executeNext();
+//   }
+
+// }
+
+
+// const runner = new TaskRunner()
+
+// const task1 = (complete, failed) => setTimeout(() => {
+//   failed("first task failed");
+//   failed("first task failed");
+// }, 1000)
+
+// const task2 = (complete, failed) => setTimeout(() => complete("second task completed"), 2000)
+
+// const startTime = new Date();
+// const curr = () => new Date();
+// const callback = ({ data, error }) => console.log({ data, error, finishedAt: curr() - startTime });
+
+// runner.enqueue(task1, callback)
+// runner.enqueue(task2, callback)
+
+
+
+
+
+
+
+
+
+
+
+// function subArraySum(arr, n, sum) {
+//   //cur_sum to keep track of cummulative sum till that polet
+//   let cur_sum = 0;
+//   let start = 0;
+//   let end = -1;
+//   let hashMap = new Map();
+
+//   for (let i = 0; i < n; i++) {
+//     cur_sum = cur_sum + arr[i];
+//     //check whether cur_sum - sum = 0, if 0 it means
+//     //the sub array is starting from index 0- so stop
+//     if (cur_sum - sum == 0) {
+//       start = 0;
+//       end = i;
+//       break;
+//     }
+//     //if hashMap already has the value, means we already
+//     // have subarray with the sum - so stop
+//     if (hashMap.has(cur_sum - sum)) {
+//       start = hashMap.get(cur_sum - sum) + 1;
+//       end = i;
+//       break;
+//     }
+//     //if value is not present then add to hashmap
+//     console.log(cur_sum)
+//     hashMap.set(cur_sum, i);
+
+//   }
+
+//   console.log(hashMap)
+//   // if end is -1 : means we have reached end without the sum
+//   if (end == -1) {
+//     console.log("No subarray with given sum exists");
+//   }
+//   else {
+//     console.log("Sum found between indexes "
+//       + start + " to " + end);
+//   }
+
+// }
+
+// // Driver program
+
+// let arr = [-1, -5, 0, 5, 0, 4, 10, 6];
+// let n = arr.length;
+// let sum = 9;
+// subArraySum(arr, n, sum);
+
+// var generateParenthesis = function (n) {
+
+//   const output = [];
+
+
+//   const isValid = str => {
+//     let balance = 0;
+//     for (let i = 0; i < str.length; i++) {
+//       const char = str[i];
+//       if (char === '(') balance++;
+//       else balance--;
+//       if (balance < 0) return false;
+//     }
+//     return balance === 0;
+//   };
+
+
+//   const recursion = (index, arr) => {
+
+//     if (arr.length === index) {
+//       if (isValid(arr))
+//         output.push(arr.join(""));
+//     } else {
+//       arr[index] = "(";
+//       recursion(index + 1, arr);
+//       arr[index] = ")";
+//       recursion(index + 1, arr);
+//     }
+//   };
+
+//   recursion(0, new Array(2 * n));
+//   return output;
+// };
+// console.log(generateParenthesis(3));
+
